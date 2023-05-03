@@ -1,0 +1,5 @@
+flask~=2.2.3
+flask-smorest
+python-dotenv
+flask-sqlalchemy
+marshmallow~=3.19.0
