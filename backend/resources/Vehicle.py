@@ -3,7 +3,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint
 from sqlalchemy.exc import SQLAlchemyError
 
-import db
+from db import db
 from models import VehicleModel
 from schemas import VehicleSchema, VehicleUpdateSchema
 
@@ -36,6 +36,7 @@ class Vehicle(MethodView):
 
         if vehicle:
             vehicle.name_of_owner = vehicle_data["name_of_owner"]
+            vehicle.type = vehicle_data["type"]
         else:
             vehicle = VehicleModel(id=vehicle_id, **vehicle_data)
 
@@ -65,10 +66,11 @@ class VehicleList(MethodView):
         return vehicle
 
 
-@blp.route("/vehicle/<string:vehicle_id>/<int:time>")
+'''@blp.route("/vehicle/<string:vehicle_id>/<int:time>")
 class VehicleCoordinates(MethodView):
     def get(self, vehicle_id, time):
         vehicle = VehicleModel.query.get_or_404(vehicle_id)
         coordinates = vehicle["coordinates"]["time"]
         result = coordinates["height"] + " " + coordinates["width"] + " " + coordinates["long"]
         return result
+'''

@@ -1,2 +1,3 @@
-from models.Vehicle import VehicleModel
-from models.Field import FieldModel
+from models.vehicle import VehicleModel
+from models.field import FieldModel
+from models.coordinate import CoordinateModel

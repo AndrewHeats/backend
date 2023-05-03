@@ -3,11 +3,11 @@ from flask.views import MethodView
 from flask_smorest import Blueprint
 from sqlalchemy.exc import SQLAlchemyError
 
-import db
+from db import db
 from models import FieldModel
 from schemas import FieldSchema, FieldUpdateSchema
 
-blp = Blueprint("Vehicles", "vehicles", description="Operation on vehicles")
+blp = Blueprint("Fields", "fields", description="Operation on fields")
 
 
 @blp.route("/field/<string:field_id>")
@@ -16,7 +16,6 @@ class Vehicle(MethodView):
     def get(self, field_id):
         field = FieldModel.query.get_or_404(field_id)
         return field
-
 
     def delete(self, field_id):
         field = FieldModel.query.get_or_404(field_id)
@@ -40,8 +39,6 @@ class Vehicle(MethodView):
         return field
 
 
-
-
 @blp.route("/field")
 class FieldList(MethodView):
     @blp.response(200, FieldSchema(many=True))
@@ -60,6 +57,3 @@ class FieldList(MethodView):
             abort(500, message="An error occurred while inserting the item.")
 
         return field
-
-
-
