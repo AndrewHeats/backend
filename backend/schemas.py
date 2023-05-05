@@ -15,27 +15,29 @@ class PlainFieldSchema(Schema):
 
 
 class PlainCoordinateSchema(Schema):
-    long = fields.Float(required=True)
-    width = fields.Float(required=True)
-    height = fields.Float(required=True)
+    id = fields.Int(dump_only=True)
+    l = fields.Float(required=True)
+    w = fields.Float(required=True)
+    h = fields.Float(required=True)
     time = fields.Float(required=True)
 
 
 class VehicleSchema(PlainVehicleSchema):
-    coordinates = fields.Nested(PlainCoordinateSchema(), dump_only=True)
-
-
-class FieldSchema(PlainFieldSchema):
-    coordinates = fields.Nested(PlainCoordinateSchema(), dump_only=True)
-
-
-class CoordinateFieldSchema(PlainCoordinateSchema):
+    """coordinate_id = fields.Int(required=True)
+    coordinates = fields.Nested(PlainCoordinateSchema(), dump_only=True)"""
     field_id = fields.Int(required=True)
     field = fields.Nested(PlainFieldSchema(), dump_only=True)
 
 
-class CoordinateVehicleSchema(PlainCoordinateSchema):
-    vehicle_id = fields.Int(required=True)
+class FieldSchema(PlainFieldSchema):
+    coordinate_id = fields.Int(required=True)
+    coordinates = fields.Nested(PlainCoordinateSchema(), dump_only=True)
+
+
+class CoordinateSchema(PlainCoordinateSchema):
+    field_id = fields.Int()
+    field = fields.Nested(PlainFieldSchema(), dump_only=True)
+    vehicle_id = fields.Int()
     vehicle = fields.Nested(PlainVehicleSchema(), dump_only=True)
 
 
@@ -45,6 +47,13 @@ class VehicleUpdateSchema(Schema):
 
 
 class FieldUpdateSchema(Schema):
-    area = fields.Float()
+    area = fields.Float(required=True)
     plant = fields.Str(required=True)
     process = fields.Str(required=True)
+
+
+class CoordinateUpdateSchema(Schema):
+    time = fields.Int(required=True)
+    l = fields.Float(required=True)
+    h = fields.Float(required=True)
+    w = fields.Float(required=True)

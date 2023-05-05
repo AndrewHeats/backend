@@ -17,11 +17,7 @@ class Vehicle(MethodView):
         vehicle = VehicleModel.query.get_or_404(vehicle_id)
         return vehicle
 
-    def get_coordinates(self, vehicle_id):
-        vehicle = VehicleModel.query.get_or_404(vehicle_id)
-        coordinates = vehicle["coordinates"]
-        result = coordinates["height"] + " " + coordinates["width"] + " " + coordinates["long"]
-        return result
+
 
     def delete(self, vehicle_id):
         vehicle = VehicleModel.query.get_or_404(vehicle_id)
@@ -66,11 +62,13 @@ class VehicleList(MethodView):
         return vehicle
 
 
-'''@blp.route("/vehicle/<string:vehicle_id>/<int:time>")
+@blp.route("/vehicle/<string:vehicle_id>/<int:time>")
 class VehicleCoordinates(MethodView):
     def get(self, vehicle_id, time):
         vehicle = VehicleModel.query.get_or_404(vehicle_id)
-        coordinates = vehicle["coordinates"]["time"]
-        result = coordinates["height"] + " " + coordinates["width"] + " " + coordinates["long"]
+        coordinates = vehicle["coordinates"]
+        if coordinates.time == time:
+            result = coordinates["height"] + " " + coordinates["width"] + " " + coordinates["length"]
+        else:
+            return 0
         return result
-'''

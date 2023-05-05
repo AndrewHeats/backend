@@ -11,7 +11,7 @@ blp = Blueprint("Fields", "fields", description="Operation on fields")
 
 
 @blp.route("/field/<string:field_id>")
-class Vehicle(MethodView):
+class Field(MethodView):
     @blp.response(200, FieldSchema)
     def get(self, field_id):
         field = FieldModel.query.get_or_404(field_id)
@@ -30,6 +30,8 @@ class Vehicle(MethodView):
 
         if field:
             field.area = field_data["area"]
+            field.plant = field_data["plant"]
+            field.process = field_data["process"]
         else:
             field = FieldModel(id=field_id, **field_data)
 

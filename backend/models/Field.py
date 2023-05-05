@@ -10,4 +10,5 @@ class FieldModel(db.Model):
     plant = db.Column(db.String, nullable=False)
 
     coordinates = db.relationship("CoordinateModel", back_populates="field", lazy="dynamic")
+    vehicles = db.relationship("VehicleModel", back_populates="field", lazy="dynamic")
 
