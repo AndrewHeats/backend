@@ -9,6 +9,5 @@ class FieldModel(db.Model):
     process = db.Column(db.String, nullable=False)
     plant = db.Column(db.String, nullable=False)
 
-    coordinates = db.relationship("CoordinateModel", back_populates="field", lazy="dynamic")
-    vehicles = db.relationship("VehicleModel", back_populates="field", lazy="dynamic")
+    #coordinates = db.relationship("CoordinateModel", back_populates="field", lazy="dynamic")
 

@@ -16,10 +16,10 @@ class PlainFieldSchema(Schema):
 
 class PlainCoordinateSchema(Schema):
     id = fields.Int(dump_only=True)
-    l = fields.Float(required=True)
-    w = fields.Float(required=True)
-    h = fields.Float(required=True)
-    time = fields.Float(required=True)
+    lon = fields.Int(required=True)
+    wid = fields.Int(required=True)
+    high = fields.Int(required=True)
+    tim = fields.Int(required=True)
 
 
 class VehicleSchema(PlainVehicleSchema):
@@ -51,7 +51,7 @@ class FieldUpdateSchema(Schema):
 
 
 class CoordinateUpdateSchema(Schema):
-    time = fields.Int(required=True)
-    l = fields.Float(required=True)
-    h = fields.Float(required=True)
-    w = fields.Float(required=True)
+    lon = fields.Int(required=True)
+    wid = fields.Int(required=True)
+    high = fields.Int(required=True)
+    tim = fields.Int(required=True)

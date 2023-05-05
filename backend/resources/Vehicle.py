@@ -5,14 +5,14 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
 from models import VehicleModel
-from schemas import VehicleSchema, VehicleUpdateSchema
+from schemas import PlainVehicleSchema, VehicleUpdateSchema
 
 blp = Blueprint("Vehicles", "vehicles", description="Operation on vehicles")
 
 
 @blp.route("/vehicle/<string:vehicle_id>")
 class Vehicle(MethodView):
-    @blp.response(200, VehicleSchema)
+    @blp.response(200, PlainVehicleSchema)
     def get(self, vehicle_id):
         vehicle = VehicleModel.query.get_or_404(vehicle_id)
         return vehicle
@@ -26,7 +26,7 @@ class Vehicle(MethodView):
         return {"message": "Vehicle deleted succesfully"}
 
     @blp.arguments(VehicleUpdateSchema)
-    @blp.response(200, VehicleSchema)
+    @blp.response(200, PlainVehicleSchema)
     def put(self, vehicle_data, vehicle_id):
         vehicle = VehicleModel.query.get(vehicle_id)
 
@@ -44,12 +44,12 @@ class Vehicle(MethodView):
 
 @blp.route("/vehicle")
 class VehicleList(MethodView):
-    @blp.response(200, VehicleSchema(many=True))
+    @blp.response(200, PlainVehicleSchema(many=True))
     def get(self):
         return VehicleModel.query.all()
 
-    @blp.arguments(VehicleSchema)
-    @blp.response(201, VehicleSchema)
+    @blp.arguments(PlainVehicleSchema)
+    @blp.response(201, PlainVehicleSchema)
     def post(self, vehicle_data):
         vehicle = VehicleModel(**vehicle_data)
 
@@ -62,13 +62,10 @@ class VehicleList(MethodView):
         return vehicle
 
 
-@blp.route("/vehicle/<string:vehicle_id>/<int:time>")
+@blp.route("/vehicle/<string:vehicle_id>/<int:coordinate_id>")
 class VehicleCoordinates(MethodView):
-    def get(self, vehicle_id, time):
+    def get(self, vehicle_id, coordinate_id):
         vehicle = VehicleModel.query.get_or_404(vehicle_id)
         coordinates = vehicle["coordinates"]
-        if coordinates.time == time:
-            result = coordinates["height"] + " " + coordinates["width"] + " " + coordinates["length"]
-        else:
-            return 0
+        result = coordinates["h"] + " " + coordinates["w"] + " " + coordinates["l"]
         return result
