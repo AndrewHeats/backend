@@ -4,7 +4,7 @@ from flask_smorest import Api
 from db import db
 from resources.vehicle import blp as VehiclesBlueprint
 from resources.field import blp as FieldsBlueprint
-from resources.coordinate import blp as CoordinatesBlueprint
+from resources.coordinate import blp as CoordinateBlueprint
 
 
 def create_app(db_url=None):
@@ -26,5 +26,5 @@ def create_app(db_url=None):
         db.create_all()
     api.register_blueprint(VehiclesBlueprint)
     api.register_blueprint(FieldsBlueprint)
-    api.register_blueprint(CoordinatesBlueprint)
+    api.register_blueprint(CoordinateBlueprint)
     return app

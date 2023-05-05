@@ -23,10 +23,8 @@ class PlainCoordinateSchema(Schema):
 
 
 class VehicleSchema(PlainVehicleSchema):
-    """coordinate_id = fields.Int(required=True)
-    coordinates = fields.Nested(PlainCoordinateSchema(), dump_only=True)"""
-    field_id = fields.Int(required=True)
-    field = fields.Nested(PlainFieldSchema(), dump_only=True)
+    coordinate_id = fields.Int(required=True)
+    coordinates = fields.Nested(PlainCoordinateSchema(), dump_only=True)
 
 
 class FieldSchema(PlainFieldSchema):
