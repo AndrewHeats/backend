@@ -14,7 +14,7 @@ class PlainFieldSchema(Schema):
     process = fields.Str(required=True)
 
 
-class PlainCoordinateSchema(Schema):
+class CoordinateSchema(Schema):
     id = fields.Int(dump_only=True)
     lon = fields.Int(required=True)
     wid = fields.Int(required=True)
@@ -24,19 +24,12 @@ class PlainCoordinateSchema(Schema):
 
 class VehicleSchema(PlainVehicleSchema):
     coordinate_id = fields.Int(required=True)
-    coordinates = fields.Nested(PlainCoordinateSchema(), dump_only=True)
+    coordinates = fields.Nested(CoordinateSchema(), dump_only=True)
 
 
 class FieldSchema(PlainFieldSchema):
     coordinate_id = fields.Int(required=True)
-    coordinates = fields.Nested(PlainCoordinateSchema(), dump_only=True)
-
-
-class CoordinateSchema(PlainCoordinateSchema):
-    field_id = fields.Int()
-    field = fields.Nested(PlainFieldSchema(), dump_only=True)
-    vehicle_id = fields.Int()
-    vehicle = fields.Nested(PlainVehicleSchema(), dump_only=True)
+    coordinates = fields.Nested(CoordinateSchema(), dump_only=True)
 
 
 class VehicleUpdateSchema(Schema):

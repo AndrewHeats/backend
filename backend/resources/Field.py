@@ -5,14 +5,14 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
 from models import FieldModel
-from schemas import FieldSchema, FieldUpdateSchema
+from schemas import PlainFieldSchema, FieldUpdateSchema
 
 blp = Blueprint("Fields", "fields", description="Operation on fields")
 
 
 @blp.route("/field/<string:field_id>")
 class Field(MethodView):
-    @blp.response(200, FieldSchema)
+    @blp.response(200, PlainFieldSchema)
     def get(self, field_id):
         field = FieldModel.query.get_or_404(field_id)
         return field
@@ -20,11 +20,12 @@ class Field(MethodView):
     def delete(self, field_id):
         field = FieldModel.query.get_or_404(field_id)
         db.session.delete(field)
+        db.session.commit()
         db.session.close()
-        return {"message": "Field deleted succesfully"}
+        return {"message": "Field deleted"}, 200
 
     @blp.arguments(FieldUpdateSchema)
-    @blp.response(200, FieldSchema)
+    @blp.response(200, PlainFieldSchema)
     def put(self, field_data, field_id):
         field = FieldModel.query.get(field_id)
 
@@ -37,24 +38,25 @@ class Field(MethodView):
 
         db.session.add(field)
         db.session.commit()
-
+        db.session.close()
         return field
 
 
 @blp.route("/field")
 class FieldList(MethodView):
-    @blp.response(200, FieldSchema(many=True))
+    @blp.response(200, PlainFieldSchema(many=True))
     def get(self):
         return FieldModel.query.all()
 
-    @blp.arguments(FieldSchema)
-    @blp.response(201, FieldSchema)
+    @blp.arguments(PlainFieldSchema)
+    @blp.response(201, PlainFieldSchema)
     def post(self, field_data):
         field = FieldModel(**field_data)
 
         try:
             db.session.add(field)
             db.session.commit()
+            db.session.close()
         except SQLAlchemyError:
             abort(500, message="An error occurred while inserting the item.")
 
