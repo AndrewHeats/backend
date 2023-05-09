@@ -61,10 +61,3 @@ class VehicleList(MethodView):
         return vehicle
 
 
-@blp.route("/vehicle/<string:vehicle_id>/<int:coordinate_id>")
-class VehicleCoordinates(MethodView):
-    def get(self, vehicle_id, coordinate_id):
-        vehicle = VehicleModel.query.get_or_404(vehicle_id)
-        coordinates = vehicle["coordinates"]
-        result = coordinates["h"] + " " + coordinates["w"] + " " + coordinates["l"]
-        return result

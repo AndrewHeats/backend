@@ -7,4 +7,3 @@ class VehicleModel(db.Model):
     name_of_owner = db.Column(db.String(100), nullable=False, unique=False)
     type = db.Column(db.String, nullable=False)
 
-    #coordinates = db.relationship("CoordinateModel", back_populates="vehicle", lazy="dynamic")
