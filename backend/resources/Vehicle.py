@@ -22,6 +22,7 @@ class Vehicle(MethodView):
     def delete(self, vehicle_id):
         vehicle = VehicleModel.query.get_or_404(vehicle_id)
         db.session.delete(vehicle)
+        db.session.commit()
         db.session.close()
         return {"message": "Vehicle deleted succesfully"}
 
@@ -38,7 +39,7 @@ class Vehicle(MethodView):
 
         db.session.add(vehicle)
         db.session.commit()
-
+        db.session.close()
         return vehicle
 
 
@@ -56,6 +57,7 @@ class VehicleList(MethodView):
         try:
             db.session.add(vehicle)
             db.session.commit()
+            db.session.close()
         except SQLAlchemyError:
             abort(500, message="An error occurred while inserting the item.")
 
