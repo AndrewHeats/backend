@@ -21,7 +21,7 @@ class Field(MethodView):
         field = FieldModel.query.get_or_404(field_id)
         db.session.delete(field)
         db.session.commit()
-        db.session.close()
+
         return {"message": "Field deleted"}, 200
 
     @blp.arguments(FieldUpdateSchema)
@@ -38,7 +38,6 @@ class Field(MethodView):
 
         db.session.add(field)
         db.session.commit()
-        db.session.close()
         return field
 
 
@@ -56,7 +55,6 @@ class FieldList(MethodView):
         try:
             db.session.add(field)
             db.session.commit()
-            db.session.close()
         except SQLAlchemyError:
             abort(500, message="An error occurred while inserting the item.")
 
